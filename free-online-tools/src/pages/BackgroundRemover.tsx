@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const BackgroundRemover: React.FC = () => {
+  document.title = "Background Remover Online Free - Online Toolbox";
   const [image, setImage] = useState("");
   const [fileName, setFileName] = useState("removed-bg.png");
 
@@ -43,6 +44,37 @@ const BackgroundRemover: React.FC = () => {
           Remove Background
         </button>
       </div>
+      <div className="seo-content">
+  <h2>Background Remover Online Free</h2>
+
+  <p>
+    Remove image backgrounds online for free in seconds. Create transparent PNG images with our fast, secure and easy-to-use background remover.
+  </p>
+
+  <h3>How to Remove Image Background?</h3>
+  <ol>
+    <li>Upload your image.</li>
+    <li>Click Remove Background.</li>
+    <li>Wait a few seconds for processing.</li>
+    <li>Download your transparent image.</li>
+  </ol>
+
+  <h3>Features</h3>
+  <ul>
+    <li>Free background remover</li>
+    <li>Fast AI processing</li>
+    <li>High-quality transparent PNG output</li>
+    <li>No registration required</li>
+  </ul>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p><strong>Is this background remover free?</strong><br />
+  Yes, it is completely free to use.</p>
+
+  <p><strong>Will the background be removed automatically?</strong><br />
+  Yes, the tool automatically detects and removes the background.</p>
+</div>
     </div>
   );
 };
