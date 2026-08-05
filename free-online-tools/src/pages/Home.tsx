@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function Home() {
+  document.title = "Free Online Image & PDF Tools - Online Toolbox";
   const imageTools = [
     {
       name: "JPG to PDF",
@@ -89,6 +90,34 @@ function Home() {
       <footer className="footer">
         © 2026 Free Online Tools. All Rights Reserved.
       </footer>
+      <div className="seo-content">
+  <h2>Free Online Image & PDF Tools</h2>
+
+  <p>
+    Online Toolbox provides free online tools to resize images, compress images,
+    convert JPG to PDF, merge PDF files, convert image formats, and remove image
+    backgrounds. All tools work directly in your browser without installing any software.
+  </p>
+
+  <h3>Popular Online Tools</h3>
+
+  <ul>
+    <li>Resize Image Online</li>
+    <li>Compress Image Online</li>
+    <li>JPG to PDF Converter</li>
+    <li>Merge PDF Files</li>
+    <li>Image Converter</li>
+    <li>Background Remover</li>
+  </ul>
+
+  <h3>Why Choose Online Toolbox?</h3>
+
+  <p>
+    Our tools are free, fast, secure and easy to use. You don't need to create
+    an account or install any software. Simply upload your file, process it and
+    download the result instantly.
+  </p>
+</div>
     </div>
   );
 }
