@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 
 import ResizeImage from "./pages/ResizeImage";
@@ -18,7 +19,8 @@ type Page =
   | "converter"
   | "background"
   | "mergepdf"
-  | "about";
+  | "about"
+  | "privacy";
 
 function App() {
   const [page, setPage] = useState<Page>("home");
@@ -111,6 +113,17 @@ function App() {
       </button>
 
       <About />
+    </div>
+  );
+}
+  if (page === "privacy") {
+  return (
+    <div>
+      <button className="back-btn" onClick={goHome}>
+        ← Back To Home
+      </button>
+
+      <Privacy />
     </div>
   );
 }
@@ -231,6 +244,7 @@ function App() {
 
   <div className="footer-links">
     <button onClick={() => setPage("about")}>About Us</button>
+    <button onClick={() => setPage("privacy")}>Privacy Policy</button>
   </div>
 
   <p style={{ marginTop: "15px", fontSize: "14px" }}>
