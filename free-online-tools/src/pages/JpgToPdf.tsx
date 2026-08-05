@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 
 const JpgToPdf: React.FC = () => {
+  document.title = "JPG to PDF Online Free - Online Toolbox";
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -104,6 +105,37 @@ const JpgToPdf: React.FC = () => {
           {loading ? "Creating PDF..." : "Convert To PDF"}
         </button>
       </div>
+      <div className="seo-content">
+  <h2>JPG to PDF Online Free</h2>
+
+  <p>
+    Convert JPG images to PDF online for free. Quickly create high-quality PDF files from your images without installing any software.
+  </p>
+
+  <h3>How to Convert JPG to PDF?</h3>
+  <ol>
+    <li>Upload one or more JPG images.</li>
+    <li>Arrange the images if needed.</li>
+    <li>Click Create PDF.</li>
+    <li>Download your PDF file.</li>
+  </ol>
+
+  <h3>Features</h3>
+  <ul>
+    <li>Free JPG to PDF converter</li>
+    <li>Fast PDF creation</li>
+    <li>No registration required</li>
+    <li>High-quality output</li>
+  </ul>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p><strong>Is this JPG to PDF tool free?</strong><br />
+  Yes, it is completely free.</p>
+
+  <p><strong>Can I convert multiple images into one PDF?</strong><br />
+  Yes, you can combine multiple JPG images into a single PDF.</p>
+</div>
     </div>
   );
 };
