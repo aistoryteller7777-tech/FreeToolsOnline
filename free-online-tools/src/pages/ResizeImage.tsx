@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const ResizeImage: React.FC = () => {
+  document.title = "Resize Image Online Free - Online Toolbox";
   const [image, setImage] = useState<string>("");
   const [fileName, setFileName] = useState("image.png");
   const [width, setWidth] = useState(500);
