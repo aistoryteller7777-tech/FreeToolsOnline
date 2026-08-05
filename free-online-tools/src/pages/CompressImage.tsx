@@ -98,7 +98,38 @@ const CompressImage: React.FC = () => {
           Compress & Download
         </button>
       </div>
-      document.title = "Compress Image Online Free - Online Toolbox";
+      <div className="seo-content">
+  <h2>Compress Image Online Free</h2>
+
+  <p>
+    Compress JPG, PNG and WebP images online for free. Reduce image file size
+    without noticeable quality loss using our fast and secure image compressor.
+  </p>
+
+  <h3>How to Compress an Image?</h3>
+  <ol>
+    <li>Upload your image.</li>
+    <li>Select the compression level.</li>
+    <li>Click Compress Image.</li>
+    <li>Download the compressed image.</li>
+  </ol>
+
+  <h3>Features</h3>
+  <ul>
+    <li>Free image compression</li>
+    <li>Fast processing</li>
+    <li>No registration required</li>
+    <li>Supports JPG, PNG and WebP</li>
+  </ul>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p><strong>Is this tool free?</strong><br />
+  Yes, it is completely free.</p>
+
+  <p><strong>Will image quality remain good?</strong><br />
+  Yes, the tool is designed to reduce file size while keeping good visual quality.</p>
+</div>
     </div>
   );
 };
