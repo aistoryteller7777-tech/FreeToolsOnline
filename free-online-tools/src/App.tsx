@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import About from "./pages/About";
 
 import ResizeImage from "./pages/ResizeImage";
 import CompressImage from "./pages/CompressImage";
@@ -16,7 +17,8 @@ type Page =
   | "jpgpdf"
   | "converter"
   | "background"
-  | "mergepdf";
+  | "mergepdf"
+  | "about";
 
 function App() {
   const [page, setPage] = useState<Page>("home");
@@ -101,6 +103,17 @@ function App() {
       </div>
     );
   }
+  if (page === "about") {
+  return (
+    <div>
+      <button className="back-btn" onClick={goHome}>
+        ← Back To Home
+      </button>
+
+      <About />
+    </div>
+  );
+}
   return (
     <div className="home-page">
       <section className="hero">
