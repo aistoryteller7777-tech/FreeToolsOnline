@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
+import Disclaimer from "./pages/Disclaimer";
 
 import ResizeImage from "./pages/ResizeImage";
 import CompressImage from "./pages/CompressImage";
@@ -22,7 +23,8 @@ type Page =
   | "mergepdf"
   | "about"
   | "privacy"
-  | "terms";
+  | "terms"
+  | "disclaimer";
 
 function App() {
   const [page, setPage] = useState<Page>("home");
@@ -137,6 +139,17 @@ function App() {
       </button>
 
       <Terms />
+    </div>
+  );
+}
+  if (page === "disclaimer") {
+  return (
+    <div>
+      <button className="back-btn" onClick={goHome}>
+        ← Back To Home
+      </button>
+
+      <Disclaimer />
     </div>
   );
 }
@@ -260,6 +273,9 @@ function App() {
     <button onClick={() => setPage("privacy")}>Privacy Policy</button>
     <button onClick={() => setPage("terms")}>
   Terms & Conditions
+</button>
+    <button onClick={() => setPage("disclaimer")}>
+  Disclaimer
 </button>
   </div>
 
