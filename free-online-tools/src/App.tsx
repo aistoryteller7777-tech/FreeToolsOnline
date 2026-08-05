@@ -3,6 +3,7 @@ import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Disclaimer from "./pages/Disclaimer";
+import Contact from "./pages/Contact";
 
 import ResizeImage from "./pages/ResizeImage";
 import CompressImage from "./pages/CompressImage";
@@ -24,7 +25,8 @@ type Page =
   | "about"
   | "privacy"
   | "terms"
-  | "disclaimer";
+  | "disclaimer"
+  | "contact";
 
 function App() {
   const [page, setPage] = useState<Page>("home");
@@ -153,6 +155,17 @@ function App() {
     </div>
   );
 }
+  if (page === "contact") {
+  return (
+    <div>
+      <button className="back-btn" onClick={goHome}>
+        ← Back To Home
+      </button>
+
+      <Contact />
+    </div>
+  );
+}
   return (
     <div className="home-page">
       <section className="hero">
@@ -276,6 +289,9 @@ function App() {
 </button>
     <button onClick={() => setPage("disclaimer")}>
   Disclaimer
+</button>
+    <button onClick={() => setPage("contact")}>
+  Contact Us
 </button>
   </div>
 
