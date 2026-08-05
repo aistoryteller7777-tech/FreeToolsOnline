@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const ImageConverter: React.FC = () => {
+  document.title = "Image Converter Online Free - Online Toolbox";
   const [image, setImage] = useState("");
   const [fileName, setFileName] = useState("converted-image");
   const [format, setFormat] = useState("png");
@@ -80,6 +81,37 @@ const ImageConverter: React.FC = () => {
           Convert & Download
         </button>
       </div>
+      <div className="seo-content">
+  <h2>Image Converter Online Free</h2>
+
+  <p>
+    Convert JPG, PNG, WebP and other image formats online for free. Fast, secure and easy image conversion directly in your browser.
+  </p>
+
+  <h3>How to Convert an Image?</h3>
+  <ol>
+    <li>Upload your image.</li>
+    <li>Select the output format.</li>
+    <li>Click Convert Image.</li>
+    <li>Download the converted image.</li>
+  </ol>
+
+  <h3>Features</h3>
+  <ul>
+    <li>Free image converter</li>
+    <li>Supports multiple image formats</li>
+    <li>Fast conversion</li>
+    <li>No registration required</li>
+  </ul>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p><strong>Is this image converter free?</strong><br />
+  Yes, it is completely free.</p>
+
+  <p><strong>Which formats are supported?</strong><br />
+  JPG, PNG, WebP and other popular image formats.</p>
+</div>
     </div>
   );
 };
