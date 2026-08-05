@@ -226,10 +226,17 @@ function App() {
       </section>
 
       <footer>
-        <h3>Free Online Tools</h3>
+  <h3>Free Online Tools</h3>
+  <p>Simple tools for everyone.</p>
 
-        <p>Simple tools for everyone.</p>
-      </footer>
+  <div className="footer-links">
+    <button onClick={() => setPage("about")}>About Us</button>
+  </div>
+
+  <p style={{ marginTop: "15px", fontSize: "14px" }}>
+    © 2026 Online Toolbox. All Rights Reserved.
+  </p>
+</footer>
     </div>
   );
 }
