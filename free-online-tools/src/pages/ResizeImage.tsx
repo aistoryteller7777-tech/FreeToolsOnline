@@ -90,6 +90,60 @@ const ResizeImage: React.FC = () => {
           Resize & Download
         </button>
       </div>
+      <div className="seo-content">
+  <h2>Resize Image Online Free</h2>
+
+  <p>
+    Resize images online for free with our easy-to-use image resizing tool.
+    Change image width and height quickly while maintaining good image quality.
+    Our online image resizer works directly in your browser without installing
+    any software.
+  </p>
+
+  <h3>How to Resize Image Online?</h3>
+
+  <ol>
+    <li>Upload your image using the upload button.</li>
+    <li>Enter your required image width and height.</li>
+    <li>Click on the Resize and Download button.</li>
+    <li>Download your resized image instantly.</li>
+  </ol>
+
+  <h3>Features of Image Resizer</h3>
+
+  <ul>
+    <li>Free online image resizing tool</li>
+    <li>Fast and simple image processing</li>
+    <li>No registration required</li>
+    <li>Works with popular image formats</li>
+    <li>Maintains good image quality</li>
+  </ul>
+
+  <h3>Why Use Our Resize Image Tool?</h3>
+
+  <p>
+    Our image resizer helps you quickly adjust image dimensions for websites,
+    social media, documents, and online forms. You can resize images easily
+    without complicated editing software.
+  </p>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p>
+    <strong>Can I resize images online for free?</strong><br />
+    Yes, you can resize images online for free using this tool.
+  </p>
+
+  <p>
+    <strong>Which image formats are supported?</strong><br />
+    This tool supports commonly used image formats like JPG and PNG.
+  </p>
+
+  <p>
+    <strong>Will my image quality be reduced after resizing?</strong><br />
+    The tool tries to maintain the best possible image quality after resizing.
+  </p>
+</div>
     </div>
   );
 };
