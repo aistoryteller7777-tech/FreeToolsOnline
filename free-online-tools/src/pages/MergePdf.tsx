@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 
 const MergePdf: React.FC = () => {
+  document.title = "Merge PDF Online Free - Online Toolbox";
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -93,6 +94,37 @@ const MergePdf: React.FC = () => {
           {loading ? "Merging..." : "Merge PDF & Download"}
         </button>
       </div>
+      <div className="seo-content">
+  <h2>Merge PDF Online Free</h2>
+
+  <p>
+    Merge multiple PDF files into one document online for free. Combine PDF files quickly, securely and without installing any software.
+  </p>
+
+  <h3>How to Merge PDF Files?</h3>
+  <ol>
+    <li>Upload your PDF files.</li>
+    <li>Arrange them in the desired order.</li>
+    <li>Click Merge PDF.</li>
+    <li>Download the merged PDF file.</li>
+  </ol>
+
+  <h3>Features</h3>
+  <ul>
+    <li>Free PDF merger</li>
+    <li>Fast processing</li>
+    <li>Secure file handling</li>
+    <li>No registration required</li>
+  </ul>
+
+  <h3>Frequently Asked Questions</h3>
+
+  <p><strong>Can I merge multiple PDF files?</strong><br />
+  Yes, you can merge multiple PDF files into one document.</p>
+
+  <p><strong>Is this PDF merge tool free?</strong><br />
+  Yes, it is completely free to use.</p>
+</div>
     </div>
   );
 };
