@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const CompressImage: React.FC = () => {
+  document.title = "Compress Image Online Free - Online Toolbox";
   const [image, setImage] = useState("");
   const [fileName, setFileName] = useState("image.jpg");
   const [quality, setQuality] = useState(0.6);
@@ -97,6 +98,7 @@ const CompressImage: React.FC = () => {
           Compress & Download
         </button>
       </div>
+      document.title = "Compress Image Online Free - Online Toolbox";
     </div>
   );
 };
