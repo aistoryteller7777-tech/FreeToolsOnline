@@ -2,79 +2,141 @@ import React, { useState } from "react";
 
 const BackgroundRemover: React.FC = () => {
   document.title = "Background Remover Online Free - Online Toolbox";
-  const [image, setImage] = useState("");
-  const [fileName, setFileName] = useState("removed-bg.png");
+
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    setFileName(file.name.split(".")[0] + "-no-bg.png");
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-
-    reader.readAsDataURL(file);
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+    setResult("");
   };
 
-  const removeBackground = () => {
-    alert(
-      "Basic version ready. AI Background Removal will be added in upgrade."
-    );
+  const removeBackground = async () => {
+    if (!image) {
+      alert("Please upload an image first");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const response = await fetch("/api/remove-bg", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Background removal failed");
+      }
+
+      const blob = await response.blob();
+
+      const imageUrl = URL.createObjectURL(blob);
+
+      setResult(imageUrl);
+
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+    }
+
+    setLoading(false);
   };
 
   return (
     <div className="tool-page">
+
       <div className="tool-header">
         <h1>✂️ Background Remover</h1>
-
-        <p>Remove image background easily.</p>
+        <p>Remove image background automatically using AI.</p>
       </div>
+
 
       <div className="tool-card">
-        <input type="file" accept="image/*" onChange={handleUpload} />
 
-        {image && <img src={image} alt="preview" className="preview-image" />}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleUpload}
+        />
 
-        <button className="action-btn" onClick={removeBackground}>
-          Remove Background
+
+        {preview && (
+          <div>
+            <h3>Original Image</h3>
+            <img
+              src={preview}
+              alt="preview"
+              className="preview-image"
+            />
+          </div>
+        )}
+
+
+        <button
+          className="action-btn"
+          onClick={removeBackground}
+          disabled={loading}
+        >
+          {loading ? "Removing..." : "Remove Background"}
         </button>
+
+
+        {result && (
+          <div>
+            <h3>Result</h3>
+
+            <img
+              src={result}
+              alt="removed background"
+              className="preview-image"
+            />
+
+            <br />
+
+            <a
+              href={result}
+              download="removed-bg.png"
+              className="action-btn"
+            >
+              Download PNG
+            </a>
+
+          </div>
+        )}
+
       </div>
+
+
       <div className="seo-content">
-  <h2>Background Remover Online Free</h2>
 
-  <p>
-    Remove image backgrounds online for free in seconds. Create transparent PNG images with our fast, secure and easy-to-use background remover.
-  </p>
+        <h2>Background Remover Online Free</h2>
 
-  <h3>How to Remove Image Background?</h3>
-  <ol>
-    <li>Upload your image.</li>
-    <li>Click Remove Background.</li>
-    <li>Wait a few seconds for processing.</li>
-    <li>Download your transparent image.</li>
-  </ol>
+        <p>
+          Remove image background automatically and create transparent PNG images.
+        </p>
 
-  <h3>Features</h3>
-  <ul>
-    <li>Free background remover</li>
-    <li>Fast AI processing</li>
-    <li>High-quality transparent PNG output</li>
-    <li>No registration required</li>
-  </ul>
+        <h3>How to Remove Background?</h3>
 
-  <h3>Frequently Asked Questions</h3>
+        <ol>
+          <li>Upload your image.</li>
+          <li>Click Remove Background.</li>
+          <li>Download transparent PNG.</li>
+        </ol>
 
-  <p><strong>Is this background remover free?</strong><br />
-  Yes, it is completely free to use.</p>
 
-  <p><strong>Will the background be removed automatically?</strong><br />
-  Yes, the tool automatically detects and removes the background.</p>
-</div>
+      </div>
+
+
     </div>
   );
 };
