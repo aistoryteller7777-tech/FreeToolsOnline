@@ -1,4 +1,14 @@
+import formidable from "formidable";
+import fs from "fs";
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default async function handler(req, res) {
+
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed",
@@ -6,15 +16,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const chunks = [];
 
-    for await (const chunk of req) {
-      chunks.push(chunk);
+    const form = formidable({
+      multiples: false,
+    });
+
+
+    const [fields, files] = await form.parse(req);
+
+
+    const imageFile = files.image;
+
+
+    if (!imageFile) {
+      return res.status(400).json({
+        error: "Image not given",
+      });
     }
 
-    const buffer = Buffer.concat(chunks);
 
-    const contentType = req.headers["content-type"];
+    const filePath = imageFile[0].filepath;
+
+
+    const formData = new FormData();
+
+
+    formData.append(
+      "image_file",
+      new Blob([
+        fs.readFileSync(filePath)
+      ]),
+      imageFile[0].originalFilename
+    );
+
 
     const response = await fetch(
       "https://api.remove.bg/v1.0/removebg",
@@ -22,32 +56,38 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "X-Api-Key": process.env.REMOVE_BG_API_KEY,
-          "Content-Type": contentType,
         },
-        body: buffer,
+        body: formData,
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
 
-      console.log(errorText);
+    if (!response.ok) {
+
+      const error = await response.text();
+
+      console.log(error);
 
       return res.status(response.status).json({
-        error: errorText,
+        error,
       });
+
     }
 
-    const result = await response.arrayBuffer();
+
+    const buffer = Buffer.from(
+      await response.arrayBuffer()
+    );
+
 
     res.setHeader(
       "Content-Type",
       "image/png"
     );
 
-    res.status(200).send(
-      Buffer.from(result)
-    );
+
+    res.status(200).send(buffer);
+
 
   } catch (error) {
 
@@ -56,5 +96,6 @@ export default async function handler(req, res) {
     res.status(500).json({
       error: "Something went wrong",
     });
+
   }
 }
