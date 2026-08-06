@@ -1,6 +1,3 @@
-const formidable = require("formidable");
-const fs = require("fs");
-
 export const config = {
   api: {
     bodyParser: false,
@@ -15,29 +12,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const form = formidable({});
+    const chunks = [];
 
-    const [fields, files] = await form.parse(req);
-
-    const imageFile = files.image?.[0];
-
-    if (!imageFile) {
-      return res.status(400).json({
-        error: "No image uploaded",
-      });
+    for await (const chunk of req) {
+      chunks.push(chunk);
     }
 
-    const imageBuffer = fs.readFileSync(imageFile.filepath);
+    const body = Buffer.concat(chunks);
 
-    const apiForm = new FormData();
-
-    apiForm.append(
-      "image_file",
-      new Blob([imageBuffer]),
-      imageFile.originalFilename
-    );
-
-    apiForm.append("size", "auto");
+    const contentType = req.headers["content-type"];
 
     const response = await fetch(
       "https://api.remove.bg/v1.0/removebg",
@@ -45,8 +28,9 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "X-Api-Key": process.env.REMOVE_BG_API_KEY,
+          "Content-Type": contentType,
         },
-        body: apiForm,
+        body: body,
       }
     );
 
@@ -58,11 +42,11 @@ export default async function handler(req, res) {
       });
     }
 
-    const result = await response.arrayBuffer();
+    const image = await response.arrayBuffer();
 
     res.setHeader("Content-Type", "image/png");
 
-    return res.status(200).send(Buffer.from(result));
+    return res.status(200).send(Buffer.from(image));
 
   } catch (error) {
     console.error(error);
