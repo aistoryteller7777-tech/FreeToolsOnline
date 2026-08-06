@@ -1,9 +1,3 @@
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -18,7 +12,7 @@ export default async function handler(req, res) {
       chunks.push(chunk);
     }
 
-    const body = Buffer.concat(chunks);
+    const buffer = Buffer.concat(chunks);
 
     const contentType = req.headers["content-type"];
 
@@ -30,29 +24,37 @@ export default async function handler(req, res) {
           "X-Api-Key": process.env.REMOVE_BG_API_KEY,
           "Content-Type": contentType,
         },
-        body: body,
+        body: buffer,
       }
     );
 
     if (!response.ok) {
       const errorText = await response.text();
 
+      console.log(errorText);
+
       return res.status(response.status).json({
         error: errorText,
       });
     }
 
-    const image = await response.arrayBuffer();
+    const result = await response.arrayBuffer();
 
-    res.setHeader("Content-Type", "image/png");
+    res.setHeader(
+      "Content-Type",
+      "image/png"
+    );
 
-    return res.status(200).send(Buffer.from(image));
+    res.status(200).send(
+      Buffer.from(result)
+    );
 
   } catch (error) {
-    console.error(error);
 
-    return res.status(500).json({
-      error: "Background removal failed",
+    console.log(error);
+
+    res.status(500).json({
+      error: "Something went wrong",
     });
   }
 }
