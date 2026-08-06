@@ -3,11 +3,64 @@ import React, { useState } from "react";
 const CompressImage: React.FC = () => {
   document.title = "Compress Image Online Free - Online Toolbox";
   const [image, setImage] = useState("");
-  const [fileName, setFileName] = useState("image.jpg");
-  const [quality, setQuality] = useState(0.6);
+
+const [preview, setPreview] = useState("");
+
+const [fileName, setFileName] = useState("");
+
+const [outputName, setOutputName] = useState("");
+
+const [imageWidth, setImageWidth] = useState(0);
+
+const [imageHeight, setImageHeight] = useState(0);
+
+const [unit, setUnit] = useState<"px" | "cm" | "mm">("px");
+
+const [width, setWidth] = useState("");
+
+const [height, setHeight] = useState("");
+
+const [keepRatio, setKeepRatio] = useState(true);
+
+const [targetKB, setTargetKB] = useState("100");
+
+const [outputFormat, setOutputFormat] = useState("jpeg");
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const file = e.target.files?.[0];
+
+  if (!file) return;
+
+  setFileName(file.name);
+
+  setOutputName(file.name.replace(/\.[^/.]+$/, ""));
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const result = event.target?.result as string;
+
+    setImage(result);
+
+    setPreview(result);
+
+    const img = new Image();
+
+    img.onload = () => {
+      setImageWidth(img.width);
+
+      setImageHeight(img.height);
+
+      setWidth(String(img.width));
+
+      setHeight(String(img.height));
+    };
+
+    img.src = result;
+  };
+
+  reader.readAsDataURL(file);
+};
 
     if (!file) return;
 
@@ -77,26 +130,167 @@ const CompressImage: React.FC = () => {
       <div className="tool-card">
         <input type="file" accept="image/*" onChange={handleUpload} />
 
-        {image && <img src={image} alt="preview" className="preview-image" />}
+        {preview && (
+  <div className="preview-section">
 
-        <div className="quality-box">
-          <label>Image Quality</label>
+    <img
+      src={preview}
+      alt="Preview"
+      className="preview-image"
+    />
 
-          <input
-            type="range"
-            min="0.1"
-            max="1"
-            step="0.1"
-            value={quality}
-            onChange={(e) => setQuality(Number(e.target.value))}
-          />
+    <div className="image-info">
 
-          <p>Quality: {Math.round(quality * 100)}%</p>
-        </div>
+      <div className="info-item">
+        <span>📷 Width</span>
+        <strong>{imageWidth}px</strong>
+      </div>
 
-        <button className="action-btn" onClick={compressImage}>
-          Compress & Download
-        </button>
+      <div className="info-item">
+        <span>📐 Height</span>
+        <strong>{imageHeight}px</strong>
+      </div>
+
+      <div className="info-item">
+        <span>📝 File</span>
+        <strong>{fileName}</strong>
+      </div>
+
+    </div>
+
+  </div>
+)}
+
+        <div className="resize-panel">
+
+  <h3>Resize Settings</h3>
+
+  <div className="unit-selector">
+
+    <button
+      className={unit === "px" ? "active-unit" : ""}
+      onClick={() => setUnit("px")}
+      type="button"
+    >
+      Pixel
+    </button>
+
+    <button
+      className={unit === "cm" ? "active-unit" : ""}
+      onClick={() => setUnit("cm")}
+      type="button"
+    >
+      CM
+    </button>
+
+    <button
+      className={unit === "mm" ? "active-unit" : ""}
+      onClick={() => setUnit("mm")}
+      type="button"
+    >
+      MM
+    </button>
+
+  </div>
+
+  <div className="input-box">
+
+    <div>
+
+      <label>Width ({unit})</label>
+
+      <input
+        type="number"
+        value={width}
+        onChange={(e) => setWidth(e.target.value)}
+      />
+
+    </div>
+
+    <div>
+
+      <label>Height ({unit})</label>
+
+      <input
+        type="number"
+        value={height}
+        onChange={(e) => setHeight(e.target.value)}
+      />
+
+    </div>
+
+  </div>
+
+  <label className="ratio-box">
+
+    <input
+      type="checkbox"
+      checked={keepRatio}
+      onChange={(e) => setKeepRatio(e.target.checked)}
+    />
+
+    Maintain Aspect Ratio
+
+  </label>
+
+  <div style={{ marginTop: "20px" }}>
+
+    <label>Target File Size (KB)</label>
+
+    <input
+      type="number"
+      placeholder="100"
+      value={targetKB}
+      onChange={(e) => setTargetKB(e.target.value)}
+    />
+
+  </div>
+
+</div>
+
+        <div className="output-panel">
+
+  <h3>Output Settings</h3>
+
+  <div style={{ marginBottom: "20px" }}>
+
+    <label>Output Format</label>
+
+    <select
+      value={outputFormat}
+      onChange={(e) => setOutputFormat(e.target.value)}
+    >
+      <option value="jpeg">JPG</option>
+
+      <option value="png">PNG</option>
+
+      <option value="webp">WEBP</option>
+
+    </select>
+
+  </div>
+
+  <div style={{ marginBottom: "20px" }}>
+
+    <label>Rename File</label>
+
+    <input
+      type="text"
+      value={outputName}
+      onChange={(e) => setOutputName(e.target.value)}
+      placeholder="Enter File Name"
+    />
+
+  </div>
+
+  <button
+    className="action-btn"
+    onClick={compressImage}
+  >
+    Reduce & Compress Image
+  </button>
+
+</div>
       </div>
       <div className="seo-content">
   <h2>Compress Image Online Free</h2>
