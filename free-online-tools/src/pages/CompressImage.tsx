@@ -23,6 +23,10 @@ const [height, setHeight] = useState("");
 const [keepRatio, setKeepRatio] = useState(true);
 
 const [targetKB, setTargetKB] = useState("100");
+  const [originalSize, setOriginalSize] = useState("");
+
+const [compressedSize, setCompressedSize] = useState("");
+  const [isCompressing, setIsCompressing] = useState(false);
 
 const [outputFormat, setOutputFormat] = useState("jpeg");
   const convertPixels = (
@@ -49,6 +53,9 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
   if (!file) return;
 
   setFileName(file.name);
+    setOriginalSize(
+  (file.size / 1024).toFixed(2) + " KB"
+);
 
   setOutputName(file.name.replace(/\.[^/.]+$/, ""));
 
@@ -85,6 +92,7 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
     alert("Please upload image");
     return;
   }
+    setIsCompressing(true);
 
   const img = new Image();
 
@@ -139,10 +147,15 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
     : "compressed-image";
 
 link.download = `${finalName}.${outputFormat}`;
+const sizeInKB = (
+  (compressed.length * 3) / 4 / 1024
+).toFixed(2);
 
+setCompressedSize(sizeInKB + " KB");
     link.href = compressed;
 
     link.click();
+    setIsCompressing(false);
   };
 
   img.src = image;
@@ -184,6 +197,15 @@ link.download = `${finalName}.${outputFormat}`;
         <span>📝 File</span>
         <strong>{fileName}</strong>
       </div>
+      <div className="info-item">
+  <span>📦 Original Size</span>
+  <strong>{originalSize}</strong>
+</div>
+
+<div className="info-item">
+  <span>📉 Compressed Size</span>
+  <strong>{compressedSize}</strong>
+</div>
 
     </div>
 
@@ -383,11 +405,14 @@ link.download = `${finalName}.${outputFormat}`;
   </div>
 
   <button
-    className="action-btn"
-    onClick={compressImage}
-  >
-    Reduce & Compress Image
-  </button>
+  className="action-btn"
+  onClick={compressImage}
+  disabled={isCompressing}
+>
+  {isCompressing
+    ? "⏳ Compressing..."
+    : "Reduce & Compress Image"}
+</button>
 
 </div>
       </div>
