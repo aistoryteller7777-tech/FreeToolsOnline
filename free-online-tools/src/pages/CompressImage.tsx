@@ -25,6 +25,23 @@ const [keepRatio, setKeepRatio] = useState(true);
 const [targetKB, setTargetKB] = useState("100");
 
 const [outputFormat, setOutputFormat] = useState("jpeg");
+  const convertPixels = (
+  value: number,
+  from: "px" | "cm" | "mm",
+  to: "px" | "cm" | "mm"
+) => {
+  const DPI = 96;
+
+  let px = value;
+
+  if (from === "cm") px = (value / 2.54) * DPI;
+  if (from === "mm") px = (value / 25.4) * DPI;
+
+  if (to === "px") return Math.round(px);
+  if (to === "cm") return Number(((px / DPI) * 2.54).toFixed(2));
+
+  return Number(((px / DPI) * 25.4).toFixed(2));
+};
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
@@ -64,48 +81,72 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 
 
   const compressImage = () => {
-    if (!image) {
-      alert("Please upload image");
+  if (!image) {
+    alert("Please upload image");
+    return;
+  }
 
-      return;
+  const img = new Image();
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+
+    let newWidth = Number(width) || img.width;
+    let newHeight = Number(height) || img.height;
+
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return;
+
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      newWidth,
+      newHeight
+    );
+
+    let quality = 0.9;
+
+    const targetBytes =
+      Number(targetKB) * 1024;
+
+    let compressed = canvas.toDataURL(
+      `image/${outputFormat}`,
+      quality
+    );
+
+    while (
+      compressed.length > targetBytes &&
+      quality > 0.1
+    ) {
+      quality -= 0.05;
+
+      compressed = canvas.toDataURL(
+        `image/${outputFormat}`,
+        quality
+      );
     }
 
-    const img = new Image();
+    const link = document.createElement("a");
 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
+    const finalName =
+  outputName.trim() !== ""
+    ? outputName.trim()
+    : "compressed-image";
 
-      let width = img.width;
-      let height = img.height;
+link.download = `${finalName}.${outputFormat}`;
 
-      const maxWidth = 1200;
+    link.href = compressed;
 
-      if (width > maxWidth) {
-        height = (height * maxWidth) / width;
-
-        width = maxWidth;
-      }
-
-      canvas.width = width;
-      canvas.height = height;
-
-      const ctx = canvas.getContext("2d");
-
-      if (!ctx) return;
-
-      ctx.drawImage(img, 0, 0, width, height);
-
-      const link = document.createElement("a");
-
-      link.download = `compressed-${fileName}`;
-
-      link.href = canvas.toDataURL(`image/${outputFormat}`, 0.9);
-
-      link.click();
-    };
-
-    img.src = image;
+    link.click();
   };
+
+  img.src = image;
+};
 
   return (
     <div className="tool-page">
@@ -156,16 +197,44 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
   <div className="unit-selector">
 
     <button
-      className={unit === "px" ? "active-unit" : ""}
-      onClick={() => setUnit("px")}
-      type="button"
-    >
-      Pixel
-    </button>
+  className={unit === "px" ? "active-unit" : ""}
+  onClick={() => {
+    setWidth(
+      String(
+        convertPixels(Number(width), unit, "px")
+      )
+    );
+
+    setHeight(
+      String(
+        convertPixels(Number(height), unit, "px")
+      )
+    );
+
+    setUnit("px");
+  }}
+  type="button"
+>
+  Pixel
+</button>
 
     <button
       className={unit === "cm" ? "active-unit" : ""}
-      onClick={() => setUnit("cm")}
+      onClick={() => {
+  setWidth(
+    String(
+      convertPixels(Number(width), unit, "cm")
+    )
+  );
+
+  setHeight(
+    String(
+      convertPixels(Number(height), unit, "cm")
+    )
+  );
+
+  setUnit("cm");
+}}
       type="button"
     >
       CM
@@ -173,7 +242,21 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 
     <button
       className={unit === "mm" ? "active-unit" : ""}
-      onClick={() => setUnit("mm")}
+      onClick={() => {
+  setWidth(
+    String(
+      convertPixels(Number(width), unit, "mm")
+    )
+  );
+
+  setHeight(
+    String(
+      convertPixels(Number(height), unit, "mm")
+    )
+  );
+
+  setUnit("mm");
+}}
       type="button"
     >
       MM
@@ -188,10 +271,24 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
       <label>Width ({unit})</label>
 
       <input
-        type="number"
-        value={width}
-        onChange={(e) => setWidth(e.target.value)}
-      />
+  type="number"
+  value={width}
+  onChange={(e) => {
+    const newWidth = e.target.value;
+
+    setWidth(newWidth);
+
+    if (keepRatio && imageWidth && imageHeight) {
+      const newHeight =
+        (Number(newWidth) * imageHeight) /
+        imageWidth;
+
+      setHeight(
+        String(Math.round(newHeight))
+      );
+    }
+  }}
+/>
 
     </div>
 
@@ -199,11 +296,25 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 
       <label>Height ({unit})</label>
 
-      <input
-        type="number"
-        value={height}
-        onChange={(e) => setHeight(e.target.value)}
-      />
+     <input
+  type="number"
+  value={height}
+  onChange={(e) => {
+    const newHeight = e.target.value;
+
+    setHeight(newHeight);
+
+    if (keepRatio && imageWidth && imageHeight) {
+      const newWidth =
+        (Number(newHeight) * imageWidth) /
+        imageHeight;
+
+      setWidth(
+        String(Math.round(newWidth))
+      );
+    }
+  }}
+/>
 
     </div>
 
