@@ -62,17 +62,7 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
   reader.readAsDataURL(file);
 };
 
-    if (!file) return;
 
-    setFileName(file.name);
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-
-    reader.readAsDataURL(file);
   };
 
   const compressImage = () => {
