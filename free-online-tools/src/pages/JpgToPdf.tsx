@@ -8,8 +8,6 @@ const JpgToPdf: React.FC = () => {
 
   const [files, setFiles] = useState<File[]>([]);
 
-  const [previews, setPreviews] = useState<string[]>([]);
-
   const [pdfName, setPdfName] = useState("converted-images");
 
 
@@ -18,10 +16,8 @@ const JpgToPdf: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [downloadName, setDownloadName] = useState("my-images-pdf");
 const [pageSize, setPageSize] = useState("a4");
-const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait");
     const [previews, setPreviews] = useState<string[]>([]);
   const [fileName, setFileName] = useState("converted-pdf");
-  const [pageSize, setPageSize] = useState("a4");
   const [orientation, setOrientation] = useState<"portrait" | "landscape">(
     "portrait"
   );
