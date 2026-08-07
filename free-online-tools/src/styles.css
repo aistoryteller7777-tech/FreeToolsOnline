@@ -1233,6 +1233,8 @@ footer p {
   position: relative;
   width: 110px;
   height: 135px;
+  touch-action: none;
+cursor: grab;
 
   flex: 0 0 110px;
 
@@ -1286,7 +1288,7 @@ footer p {
   z-index: 5;
 }
 
-.drag-handle:active {
+.sortable-image-card:active {
   cursor: grabbing;
 }
 
