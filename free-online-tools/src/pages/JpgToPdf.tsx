@@ -22,34 +22,74 @@ const JpgToPdf: React.FC = () => {
   const [quality, setQuality] = useState(0.9);
 
   const [loading, setLoading] = useState(false);
+  const [downloadName, setDownloadName] = useState("my-images-pdf");
+const [pageSize, setPageSize] = useState("a4");
+const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait");
+    const [previews, setPreviews] = useState<string[]>([]);
+  const [fileName, setFileName] = useState("converted-pdf");
+  const [pageSize, setPageSize] = useState("a4");
+  const [orientation, setOrientation] = useState<"portrait" | "landscape">(
+    "portrait"
+  );
+  const [quality, setQuality] = useState(0.9);
+  const [margin, setMargin] = useState(10);
+  const [downloadName, setDownloadName] = useState("my-images-pdf");
+  const removeImage = (index: number) => {
+
+  const newFiles = files.filter(
+    (_, i) => i !== index
+  );
+
+  const newPreviews = previews.filter(
+    (_, i) => i !== index
+  );
+
+  setFiles(newFiles);
+
+  setPreviews(newPreviews);
+
+};
+
+
+const clearAllImages = () => {
+
+  setFiles([]);
+
+  setPreviews([]);
+
+};
 
 
 
-  const handleUpload = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFiles = e.target.files;
 
-    const selectedFiles = e.target.files;
+  if (!selectedFiles) return;
 
+  const imageFiles = Array.from(selectedFiles);
 
-    if (!selectedFiles) return;
+  setFiles(imageFiles);
 
+  const names = imageFiles.map((file) => file.name);
 
-    const imageFiles = Array.from(selectedFiles);
+  setFileName(names.join(", "));
 
+  const readers = imageFiles.map((file) => {
+    return new Promise<string>((resolve) => {
+      const reader = new FileReader();
 
-    setFiles(imageFiles);
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
 
+      reader.readAsDataURL(file);
+    });
+  });
 
-
-    const previewList = imageFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
-
-
-    setPreviews(previewList);
-
-  };
+  Promise.all(readers).then((results) => {
+    setPreviews(results);
+  });
+};
 
 
 
@@ -87,6 +127,90 @@ const JpgToPdf: React.FC = () => {
           onChange={handleUpload}
 
         />
+        <div className="pdf-settings">
+
+  <h3>⚙️ PDF Settings</h3>
+
+  <label>
+    PDF File Name
+  </label>
+
+  <input
+    type="text"
+    value={downloadName}
+    onChange={(e) => setDownloadName(e.target.value)}
+    placeholder="Enter PDF name"
+  />
+
+
+  <label>
+    Page Size
+  </label>
+
+  <select
+    value={pageSize}
+    onChange={(e) => setPageSize(e.target.value)}
+  >
+    <option value="a4">A4</option>
+    <option value="letter">Letter</option>
+    <option value="a3">A3</option>
+  </select>
+
+
+  <label>
+    Orientation
+  </label>
+
+  <select
+    value={orientation}
+    onChange={(e) =>
+      setOrientation(
+        e.target.value as "portrait" | "landscape"
+      )
+    }
+  >
+    <option value="portrait">
+      Portrait
+    </option>
+
+    <option value="landscape">
+      Landscape
+    </option>
+
+  </select>
+
+
+  <label>
+    Image Quality
+  </label>
+
+  <input
+    type="range"
+    min="0.3"
+    max="1"
+    step="0.1"
+    value={quality}
+    onChange={(e) =>
+      setQuality(Number(e.target.value))
+    }
+  />
+
+
+  <label>
+    Margin: {margin}px
+  </label>
+
+  <input
+    type="range"
+    min="0"
+    max="50"
+    value={margin}
+    onChange={(e) =>
+      setMargin(Number(e.target.value))
+    }
+  />
+
+</div>
 
 
 
