@@ -63,8 +63,6 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 };
 
 
-  };
-
   const compressImage = () => {
     if (!image) {
       alert("Please upload image");
@@ -101,14 +99,13 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 
       link.download = `compressed-${fileName}`;
 
-      link.href = canvas.toDataURL("image/jpeg", quality);
+      link.href = canvas.toDataURL(`image/${outputFormat}`, 0.9);
 
       link.click();
     };
 
     img.src = image;
   };
-};
 
   return (
     <div className="tool-page">
