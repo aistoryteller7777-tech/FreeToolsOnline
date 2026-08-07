@@ -127,17 +127,26 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
       quality
     );
 
-    while (
-      compressed.length > targetBytes &&
-      quality > 0.1
-    ) {
-      quality -= 0.05;
+    let minQuality = 0.1;
+let maxQuality = 0.95;
 
-      compressed = canvas.toDataURL(
-        `image/${outputFormat}`,
-        quality
-      );
-    }
+for (let i = 0; i < 10; i++) {
+  quality = (minQuality + maxQuality) / 2;
+
+  compressed = canvas.toDataURL(
+    `image/${outputFormat}`,
+    quality
+  );
+
+  const currentSize =
+    (compressed.length * 3) / 4;
+
+  if (currentSize > targetBytes) {
+    maxQuality = quality;
+  } else {
+    minQuality = quality;
+  }
+}
 
     const link = document.createElement("a");
 
