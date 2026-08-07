@@ -113,6 +113,40 @@ const clearAllImages = () => {
           onChange={handleUpload}
 
         />
+        {files.length > 0 && (
+  <div className="file-list">
+    <h3>Selected Images</h3>
+
+    <p>{files.length} image(s) selected</p>
+
+    <ul>
+      {files.map((file, index) => (
+        <li key={index}>
+          {file.name}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+  {files.length > 0 && (
+  <div className="preview-grid">
+    {files.map((file, index) => (
+      <div className="image-preview-card" key={index}>
+        <img
+          src={URL.createObjectURL(file)}
+          alt={file.name}
+          className="pdf-preview-image"
+        />
+
+        <p>{file.name}</p>
+
+        <span>
+          {(file.size / 1024).toFixed(2)} KB
+        </span>
+      </div>
+    ))}
+  </div>
+)}      
         <div className="pdf-settings">
 
   <h3>⚙️ PDF Settings</h3>
