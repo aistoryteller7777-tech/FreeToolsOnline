@@ -102,7 +102,7 @@ useState("portrait");
 
 
 const [targetSize,setTargetSize] =
-useState("No Limit");
+useState("");
 
 
 const [loading,setLoading] =
@@ -537,41 +537,24 @@ Target PDF Size
 
 <select
 
+<label>
+Target PDF Size (Optional)
+</label>
+
+<div className="size-input">
+
+<input
+type="number"
+placeholder="Enter KB e.g. 500"
 value={targetSize}
-
-onChange={
-e=>setTargetSize(e.target.value)
+onChange={(e)=>
+setTargetSize(e.target.value)
 }
+/>
 
->
+<span>KB</span>
 
-<option>
-No Limit
-</option>
-
-<option>
-200 KB
-</option>
-
-
-<option>
-500 KB
-</option>
-
-
-<option>
-1 MB
-</option>
-
-
-<option>
-2 MB
-</option>
-
-
-<option>
-5 MB
-</option>
+</div>
 
 
 </select>
