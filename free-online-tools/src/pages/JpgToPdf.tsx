@@ -125,7 +125,7 @@ const newImages =
 Array.from(files).map((file)=>({
 
 id:
-crypto.randomUUID(),
+Date.now().toString(),
 
 file,
 
