@@ -1,304 +1,691 @@
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 
-const JpgToPdf: React.FC = () => {
+import {
+  DndContext,
+  closestCenter,
+} from "@dnd-kit/core";
 
-  document.title = "JPG To PDF Converter Online Free - Online Toolbox";
+import {
+  arrayMove,
+  SortableContext,
+  horizontalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
 
-
-  const [files, setFiles] = useState<File[]>([]);
-
-  const [pdfName, setPdfName] = useState("converted-images");
-
-  const [loading, setLoading] = useState(false);
-  const [downloadName, setDownloadName] = useState("my-images-pdf");
-const [pageSize, setPageSize] = useState("a4");
-    const [previews, setPreviews] = useState<string[]>([]);
-  const [fileName, setFileName] = useState("converted-pdf");
-  const [orientation, setOrientation] = useState<"portrait" | "landscape">(
-    "portrait"
-  );
-  const [quality, setQuality] = useState(0.9);
-  const [margin, setMargin] = useState(10);
-  const removeImage = (index: number) => {
-
-  const newFiles = files.filter(
-    (_, i) => i !== index
-  );
-
-  const newPreviews = previews.filter(
-    (_, i) => i !== index
-  );
-
-  setFiles(newFiles);
-
-  setPreviews(newPreviews);
-
-};
+import { CSS } from "@dnd-kit/utilities";
 
 
-const clearAllImages = () => {
-
-  setFiles([]);
-
-  setPreviews([]);
-
-};
+interface ImageItem {
+  id: string;
+  file: File;
+  preview: string;
+}
 
 
+const SortableImage = ({
+  item,
+  removeImage,
+}: {
+  item: ImageItem;
+  removeImage: (id:string)=>void;
+}) => {
 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const selectedFiles = e.target.files;
-
-  if (!selectedFiles) return;
-
-  const imageFiles = Array.from(selectedFiles);
-
-  setFiles(imageFiles);
-
-  const names = imageFiles.map((file) => file.name);
-
-  setFileName(names.join(", "));
-
-  const readers = imageFiles.map((file) => {
-    return new Promise<string>((resolve) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-
-      reader.readAsDataURL(file);
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id:item.id,
   });
 
-  Promise.all(readers).then((results) => {
-    setPreviews(results);
-  });
-};
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
 
   return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="pdf-image-card"
+    >
 
-    <div className="tool-page">
+      <img
+        src={item.preview}
+        className="pdf-thumb"
+      />
 
+      <button
+        className="remove-image-btn"
+        onClick={(e)=>{
+          e.stopPropagation();
+          removeImage(item.id);
+        }}
+      >
+        ❌
+      </button>
 
-      <div className="tool-header">
-
-        <h1>
-          📄 JPG To PDF Converter
-        </h1>
-
-
-        <p>
-          Convert images into professional PDF files with full control.
-        </p>
-
-      </div>
-
-
-
-      <div className="tool-card">
-
-
-        <input
-
-          type="file"
-
-          accept="image/*"
-
-          multiple
-
-          onChange={handleUpload}
-
-        />
-        {files.length > 0 && (
-  <div className="file-list">
-    <h3>Selected Images</h3>
-
-    <p>{files.length} image(s) selected</p>
-
-    <ul>
-      {files.map((file, index) => (
-        <li key={index}>
-          {file.name}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-  {files.length > 0 && (
-  <div className="preview-grid">
-    {files.map((file, index) => (
-      <div className="image-preview-card" key={index}>
-        <img
-          src={URL.createObjectURL(file)}
-          alt={file.name}
-          className="pdf-preview-image"
-        />
-
-        <p>{file.name}</p>
-
-        <span>
-          {(file.size / 1024).toFixed(2)} KB
-        </span>
-      </div>
-    ))}
-  </div>
-)}      
-        <div className="pdf-settings">
-
-  <h3>⚙️ PDF Settings</h3>
-
-  <label>
-    PDF File Name
-  </label>
-
-  <input
-    type="text"
-    value={downloadName}
-    onChange={(e) => setDownloadName(e.target.value)}
-    placeholder="Enter PDF name"
-  />
+    </div>
+  );
+};
 
 
-  <label>
-    Page Size
-  </label>
 
-  <select
-    value={pageSize}
-    onChange={(e) => setPageSize(e.target.value)}
-  >
-    <option value="a4">A4</option>
-    <option value="letter">Letter</option>
-    <option value="a3">A3</option>
-  </select>
+const JpgToPdf: React.FC = () => {
 
 
-  <label>
-    Orientation
-  </label>
-
-  <select
-    value={orientation}
-    onChange={(e) =>
-      setOrientation(
-        e.target.value as "portrait" | "landscape"
-      )
-    }
-  >
-    <option value="portrait">
-      Portrait
-    </option>
-
-    <option value="landscape">
-      Landscape
-    </option>
-
-  </select>
+document.title =
+"JPG To PDF Online Free - Online Toolbox";
 
 
-  <label>
-    Image Quality
-  </label>
-
-  <input
-    type="range"
-    min="0.3"
-    max="1"
-    step="0.1"
-    value={quality}
-    onChange={(e) =>
-      setQuality(Number(e.target.value))
-    }
-  />
+const [images,setImages] =
+useState<ImageItem[]>([]);
 
 
-  <label>
-    Margin: {margin}px
-  </label>
+const [fileName,setFileName] =
+useState("");
 
-  <input
-    type="range"
-    min="0"
-    max="50"
-    value={margin}
-    onChange={(e) =>
-      setMargin(Number(e.target.value))
-    }
-  />
+
+const [pageSize,setPageSize] =
+useState("A4");
+
+
+const [orientation,setOrientation] =
+useState("portrait");
+
+
+const [targetSize,setTargetSize] =
+useState("No Limit");
+
+
+const [loading,setLoading] =
+useState(false);
+
+
+
+const handleUpload = (
+e:React.ChangeEvent<HTMLInputElement>
+)=>{
+
+const files =
+e.target.files;
+
+
+if(!files) return;
+
+
+const newImages =
+Array.from(files).map((file)=>({
+
+id:
+crypto.randomUUID(),
+
+file,
+
+preview:
+URL.createObjectURL(file),
+
+}));
+
+
+setImages(prev=>[
+...prev,
+...newImages
+]);
+
+
+};
+  const removeImage = (id:string)=>{
+
+  setImages(prev =>
+    prev.filter(image => image.id !== id)
+  );
+
+};
+
+
+
+const handleDragEnd = (event:any)=>{
+
+  const {
+    active,
+    over
+  } = event;
+
+
+  if(
+    !over ||
+    active.id === over.id
+  ) return;
+
+
+  setImages((items)=>{
+
+    const oldIndex =
+    items.findIndex(
+      item=>item.id===active.id
+    );
+
+
+    const newIndex =
+    items.findIndex(
+      item=>item.id===over.id
+    );
+
+
+    return arrayMove(
+      items,
+      oldIndex,
+      newIndex
+    );
+
+  });
+
+};
+
+
+
+const getPdfSize = ()=>{
+
+  if(pageSize==="A4"){
+    return {
+      width:210,
+      height:297
+    };
+  }
+
+
+  if(pageSize==="Letter"){
+    return {
+      width:216,
+      height:279
+    };
+  }
+
+
+  return {
+    width:210,
+    height:297
+  };
+
+};
+
+
+
+
+
+const convertToPdf = async()=>{
+
+
+if(images.length===0){
+
+alert(
+"Please upload images"
+);
+
+return;
+
+}
+
+
+setLoading(true);
+
+
+try{
+
+
+const size =
+getPdfSize();
+
+
+
+const pdf =
+new jsPDF({
+
+orientation:
+orientation==="landscape"
+? "landscape"
+: "portrait",
+
+unit:"mm",
+
+format:
+pageSize==="Letter"
+? "letter"
+: "a4"
+
+});
+
+
+
+for(
+let i=0;
+i<images.length;
+i++
+){
+
+
+const imageData =
+await new Promise<string>(
+(resolve)=>{
+
+const reader =
+new FileReader();
+
+
+reader.onload=()=>{
+
+resolve(
+reader.result as string
+);
+
+};
+
+
+reader.readAsDataURL(
+images[i].file
+);
+
+
+});
+
+
+
+if(i>0){
+
+pdf.addPage();
+
+}
+
+
+
+pdf.addImage(
+
+imageData,
+
+"JPEG",
+
+10,
+
+10,
+
+size.width-20,
+
+size.height-20
+
+);
+
+
+}
+
+
+
+const finalName =
+fileName.trim() !== ""
+?
+fileName.trim()
+:
+"converted-images";
+
+
+
+pdf.save(
+`${finalName}.pdf`
+);
+
+
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"PDF creation failed"
+);
+
+
+}
+finally{
+
+setLoading(false);
+
+}
+
+
+};
+  return (
+
+<div className="tool-page">
+
+
+<div className="tool-header">
+
+<h1>📄 JPG To PDF</h1>
+
+<p>
+Convert multiple images into a professional PDF file.
+</p>
 
 </div>
 
 
 
-        {files.length > 0 && (
-
-          <div className="file-list">
-
-            <h3>
-              Selected Images
-            </h3>
+<div className="tool-card">
 
 
-            <p>
-              {files.length} image(s) selected
-            </p>
-
-
-            <ul>
-
-              {files.map((file,index)=>(
-
-                <li key={index}>
-                  {file.name}
-                </li>
-
-              ))}
-
-            </ul>
-
-
-          </div>
-
-        )}
+<input
+type="file"
+accept="image/*"
+multiple
+onChange={handleUpload}
+/>
 
 
 
-        {previews.length > 0 && (
 
-          <div className="preview-section">
+{images.length > 0 && (
 
-            {previews.map((img,index)=>(
+<div className="pdf-images-area">
 
-              <img
 
-                key={index}
-
-                src={img}
-
-                className="preview-image"
-
-                alt="preview"
-
-              />
-
-            ))}
-
-          </div>
-
-        )}
+<h3>
+Selected Images ({images.length})
+</h3>
 
 
 
-      </div>
+<DndContext
+collisionDetection={closestCenter}
+onDragEnd={handleDragEnd}
+>
 
 
-    </div>
+<SortableContext
+items={images.map(img=>img.id)}
+strategy={horizontalListSortingStrategy}
+>
 
-  );
+
+<div className="pdf-image-list">
+
+
+{
+images.map((item)=>(
+
+<SortableImage
+
+key={item.id}
+
+item={item}
+
+removeImage={removeImage}
+
+/>
+
+))
+}
+
+
+
+</div>
+
+
+</SortableContext>
+
+
+</DndContext>
+
+
+<p>
+Drag images to change order
+</p>
+
+
+</div>
+
+)}
+
+
+
+
+<div className="pdf-settings">
+
+
+<h3>
+PDF Settings
+</h3>
+
+
+
+<label>
+Page Size
+</label>
+
+
+<select
+
+value={pageSize}
+
+onChange={
+e=>setPageSize(e.target.value)
+}
+
+>
+
+<option value="A4">
+A4
+</option>
+
+<option value="Letter">
+Letter
+</option>
+
+<option value="Original">
+Original
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+Orientation
+</label>
+
+
+<select
+
+value={orientation}
+
+onChange={
+e=>setOrientation(e.target.value)
+}
+
+>
+
+<option value="portrait">
+Portrait
+</option>
+
+
+<option value="landscape">
+Landscape
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+Target PDF Size
+</label>
+
+
+<select
+
+value={targetSize}
+
+onChange={
+e=>setTargetSize(e.target.value)
+}
+
+>
+
+<option>
+No Limit
+</option>
+
+<option>
+200 KB
+</option>
+
+
+<option>
+500 KB
+</option>
+
+
+<option>
+1 MB
+</option>
+
+
+<option>
+2 MB
+</option>
+
+
+<option>
+5 MB
+</option>
+
+
+</select>
+
+
+
+
+
+
+<label>
+PDF File Name (Optional)
+</label>
+
+
+<input
+
+type="text"
+
+placeholder="converted-images"
+
+value={fileName}
+
+onChange={
+e=>setFileName(e.target.value)
+}
+
+/>
+
+
+
+<button
+
+className="action-btn"
+
+onClick={convertToPdf}
+
+disabled={loading}
+
+>
+
+
+{
+loading
+?
+"Creating PDF..."
+:
+"Convert To PDF"
+}
+
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div className="seo-content">
+
+
+<h2>
+JPG To PDF Online Free
+</h2>
+
+
+<p>
+Convert JPG images into PDF files online.
+Arrange images, remove unwanted photos,
+select page settings and create PDF easily.
+</p>
+
+
+<h3>
+Features
+</h3>
+
+
+<ul>
+
+<li>
+Multiple image upload
+</li>
+
+<li>
+Drag and reorder images
+</li>
+
+<li>
+Remove unwanted images
+</li>
+
+<li>
+Custom PDF name
+</li>
+
+<li>
+A4 and Letter support
+</li>
+
+</ul>
+
+
+</div>
+
+
+
+</div>
+
+);
 
 
 };
