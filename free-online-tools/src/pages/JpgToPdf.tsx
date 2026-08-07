@@ -535,30 +535,32 @@ Target PDF Size
 </label>
 
 
-<select
+<div className="setting-item">
 
-<label>
-Target PDF Size (Optional)
-</label>
+  <label>
+    Target PDF Size (Optional)
+  </label>
 
-<div className="size-input">
+  <div className="size-control">
 
-<input
-type="number"
-placeholder="Enter KB e.g. 500"
-value={targetSize}
-onChange={(e)=>
-setTargetSize(e.target.value)
-}
-/>
+    <input
+      type="number"
+      placeholder="Enter KB (Example: 500)"
+      value={targetSize}
+      onChange={(e) =>
+        setTargetSize(e.target.value)
+      }
+    />
 
-<span>KB</span>
+    <span>KB</span>
+
+  </div>
+
+  <small>
+    Leave empty for normal PDF quality
+  </small>
 
 </div>
-
-
-</select>
-
 
 
 
