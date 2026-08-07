@@ -12,12 +12,6 @@ const JpgToPdf: React.FC = () => {
 
   const [pdfName, setPdfName] = useState("converted-images");
 
-  const [pageSize, setPageSize] = useState("a4");
-
-  const [orientation, setOrientation] = useState<
-    "portrait" | "landscape"
-  >("portrait");
-
 
   const [quality, setQuality] = useState(0.9);
 
@@ -33,7 +27,6 @@ const [orientation, setOrientation] = useState<"portrait" | "landscape">("portra
   );
   const [quality, setQuality] = useState(0.9);
   const [margin, setMargin] = useState(10);
-  const [downloadName, setDownloadName] = useState("my-images-pdf");
   const removeImage = (index: number) => {
 
   const newFiles = files.filter(
