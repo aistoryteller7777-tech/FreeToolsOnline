@@ -1144,22 +1144,84 @@ footer p {
    SMALL PHONES
 ========================================================= */
 
+/* =========================
+   SMALL MOBILE DEVICES
+========================= */
+
 @media (max-width: 390px) {
+  .hero {
+    min-height: 460px;
+    padding: 40px 18px;
+  }
+
   .hero-text h1 {
     font-size: 34px;
+    line-height: 1.15;
   }
 
-  .section h2,
+  .hero-text p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .main-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  .hero-image .image-box {
+    width: 170px;
+    height: 170px;
+    font-size: 60px;
+  }
+
+  .tools-section {
+    padding: 50px 18px;
+  }
+
   .tools-section h2,
   .features h2 {
-    font-size: 25px;
+    font-size: 28px;
   }
 
-  .tool-page > .tool-card {
-    padding: 17px;
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
 
-  .card,
-.tool-card {
-  padding: 30px;
+  .tool-card {
+    padding: 25px 20px;
+  }
+
+  .tool-card h3 {
+    font-size: 20px;
+  }
+
+  .tool-card p {
+    font-size: 15px;
+  }
+
+  .tool-page {
+    padding: 35px 15px;
+  }
+
+  .tool-header h1 {
+    font-size: 28px;
+  }
+
+  .tool-header p {
+    font-size: 16px;
+  }
+
+  .tool-card input[type="file"] {
+    font-size: 14px;
+  }
+
+  .input-box {
+    grid-template-columns: 1fr;
+  }
+
+  .action-btn {
+    font-size: 16px;
+  }
 }
