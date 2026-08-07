@@ -58,34 +58,44 @@ function Home() {
       </section>
 
       <section className="section">
-        <h2>PDF Tools</h2>
+  <h2>PDF Tools</h2>
 
-        <div className="grid">
-          <div className="card">
-            <h3>📚 Merge PDF</h3>
-            <p>Coming Soon</p>
-            <button disabled>Coming Soon</button>
-          </div>
+  <div className="grid">
+    <div className="card">
+      <h3>📚 Merge PDF</h3>
 
-          <div className="card">
-            <h3>✂️ Split PDF</h3>
-            <p>Coming Soon</p>
-            <button disabled>Coming Soon</button>
-          </div>
-        </div>
-      </section>
+      <p>Combine multiple PDF files into one PDF.</p>
 
-      <section className="section">
-        <h2>AI Tools</h2>
+      <Link to="/merge-pdf">
+        <button>Open Tool</button>
+      </Link>
+    </div>
 
-        <div className="grid">
-          <div className="card">
-            <h3>✨ Background Remover</h3>
-            <p>Coming Soon</p>
-            <button disabled>Coming Soon</button>
-          </div>
-        </div>
-      </section>
+    <div className="card">
+      <h3>✂️ Split PDF</h3>
+
+      <p>Split PDF files into separate documents.</p>
+
+      <button disabled>Coming Soon</button>
+    </div>
+  </div>
+</section>
+
+<section className="section">
+  <h2>AI Tools</h2>
+
+  <div className="grid">
+    <div className="card">
+      <h3>✨ Background Remover</h3>
+
+      <p>Remove image backgrounds automatically using AI.</p>
+
+      <Link to="/background-remover">
+        <button>Open Tool</button>
+      </Link>
+    </div>
+  </div>
+</section>
 
       <footer className="footer">
         © 2026 Free Online Tools. All Rights Reserved.
