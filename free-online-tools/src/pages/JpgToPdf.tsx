@@ -221,145 +221,196 @@ const getPdfSize = ()=>{
 
 
 
-const convertToPdf = async()=>{
-
-
-if(images.length===0){
-
-alert(
-"Please upload images"
-);
-
-return;
-
-}
-
-
-setLoading(true);
-
-
-try{
-
-
-const size =
-getPdfSize();
-
-
-
-const pdf =
-new jsPDF({
-
-orientation:
-orientation==="landscape"
-? "landscape"
-: "portrait",
-
-unit:"mm",
-
-format:
-pageSize==="Letter"
-? "letter"
-: "a4"
-
-});
-
-
-
-for(
-let i=0;
-i<images.length;
-i++
-){
-
-
-const imageData =
-await new Promise<string>(
-(resolve)=>{
-
-const reader =
-new FileReader();
-
-
-reader.onload=()=>{
-
-resolve(
-reader.result as string
-);
-
-};
-
-
-reader.readAsDataURL(
-images[i].file
-);
-
-
-});
-
-
-
-if(i>0){
-
-pdf.addPage();
-
-}
-
-
-
-pdf.addImage(
-
-imageData,
-
-"JPEG",
-
-10,
-
-10,
-
-size.width-20,
-
-size.height-20
-
-);
-
-
-}
-
-
-
-const finalName =
-fileName.trim() !== ""
-?
-fileName.trim()
-:
-"converted-images";
-
-
-
-pdf.save(
-`${finalName}.pdf`
-);
-
-
-
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"PDF creation failed"
-);
-
-
-}
-finally{
-
-setLoading(false);
-
-}
-
-
+const convertToPdf = async () => {
+  if (images.length === 0) {
+    alert("Please upload images");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const size = getPdfSize();
+
+    const targetKB = Number(targetSize);
+
+    const createPdf = async (quality: number) => {
+      const pdf = new jsPDF({
+        orientation:
+          orientation === "landscape"
+            ? "landscape"
+            : "portrait",
+
+        unit: "mm",
+
+        format:
+          pageSize === "Letter"
+            ? "letter"
+            : "a4",
+      });
+
+      for (let i = 0; i < images.length; i++) {
+        const imageData = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+
+          reader.onload = () => {
+            resolve(reader.result as string);
+          };
+
+          reader.readAsDataURL(images[i].file);
+        });
+
+        const compressedImage = await new Promise<string>((resolve) => {
+          const img = new Image();
+
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+
+            const maxWidth = 1800;
+            const maxHeight = 1800;
+
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth || height > maxHeight) {
+              const ratio = Math.min(
+                maxWidth / width,
+                maxHeight / height
+              );
+
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            if (!ctx) {
+              resolve(imageData);
+              return;
+            }
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              width,
+              height
+            );
+
+            resolve(
+              canvas.toDataURL(
+                "image/jpeg",
+                quality
+              )
+            );
+          };
+
+          img.src = imageData;
+        });
+
+        if (i > 0) {
+          pdf.addPage();
+        }
+
+        pdf.addImage(
+          compressedImage,
+          "JPEG",
+          10,
+          10,
+          size.width - 20,
+          size.height - 20
+        );
+      }
+
+      return pdf;
+    };
+
+    let quality = 0.85;
+    let finalPdf = await createPdf(quality);
+
+    /*
+      If the user did not enter a target size,
+      create the normal PDF.
+    */
+    if (
+      !Number.isFinite(targetKB) ||
+      targetKB <= 0
+    ) {
+      const finalName =
+        fileName.trim() !== ""
+          ? fileName.trim()
+          : "converted-images";
+
+      finalPdf.save(
+        `${finalName}.pdf`
+      );
+
+      return;
+    }
+
+    /*
+      Try different JPEG qualities until
+      the PDF gets close to the requested size.
+    */
+
+    const maxAttempts = 8;
+
+    for (
+      let attempt = 0;
+      attempt < maxAttempts;
+      attempt++
+    ) {
+      const pdfBytes =
+        finalPdf.output("arraybuffer");
+
+      const currentKB =
+        pdfBytes.byteLength / 1024;
+
+      if (
+        currentKB <= targetKB ||
+        quality <= 0.2
+      ) {
+        break;
+      }
+
+      const ratio =
+        targetKB / currentKB;
+
+      quality =
+        Math.max(
+          0.2,
+          Math.min(
+            0.85,
+            quality * Math.sqrt(ratio)
+          )
+        );
+
+      finalPdf =
+        await createPdf(quality);
+    }
+
+    const finalName =
+      fileName.trim() !== ""
+        ? fileName.trim()
+        : "converted-images";
+
+    finalPdf.save(
+      `${finalName}.pdf`
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      "PDF creation failed"
+    );
+
+  } finally {
+    setLoading(false);
+  }
 };
   return (
 
