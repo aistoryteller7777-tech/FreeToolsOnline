@@ -70,13 +70,19 @@ const SortableImage = ({
       />
 
       <button
-        type="button"
-        className="remove-image-btn"
-        onClick={() => removeImage(item.id)}
-        title="Remove image"
-      >
-        ×
-      </button>
+  type="button"
+  className="remove-image-btn"
+  onPointerDown={(event) => {
+    event.stopPropagation();
+  }}
+  onClick={(event) => {
+    event.stopPropagation();
+    removeImage(item.id);
+  }}
+  title="Remove image"
+>
+  ×
+</button>
     </div>
   );
 };
