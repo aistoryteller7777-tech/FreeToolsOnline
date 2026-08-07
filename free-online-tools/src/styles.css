@@ -1,546 +1,1164 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Inter", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: #f5f7ff;
-  color: #1f2937;
+  font-family: "Inter", Arial, sans-serif;
+  background: #f6f8fc;
+  color: #0f172a;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* HOME */
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 .home-page {
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(37, 99, 235, 0.08), transparent 30%),
+    #f6f8fc;
 }
 
-/* HERO */
+.section {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 85px 0;
+}
+
+.section h2 {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 45px;
+  color: #0f172a;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
-  min-height: 500px;
-  padding: 70px 8%;
+  position: relative;
+  overflow: hidden;
+  min-height: 540px;
+  padding: 90px max(30px, 7%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
-
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
-
+  gap: 70px;
   color: white;
+
+  background:
+    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.18), transparent 25%),
+    radial-gradient(circle at 20% 90%, rgba(255, 255, 255, 0.12), transparent 30%),
+    linear-gradient(135deg, #1d4ed8 0%, #4f46e5 48%, #7c3aed 100%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  right: -180px;
+  top: -230px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  left: -150px;
+  bottom: -170px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.hero > * {
+  position: relative;
+  z-index: 2;
 }
 
 .hero-text {
-  max-width: 600px;
+  max-width: 650px;
 }
 
 .hero-text h1 {
-  font-size: 52px;
-  line-height: 1.15;
-  margin-bottom: 20px;
+  font-size: clamp(42px, 5vw, 68px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  margin-bottom: 24px;
 }
 
 .hero-text p {
+  max-width: 610px;
   font-size: 18px;
-  line-height: 1.6;
-  opacity: 0.9;
-  margin-bottom: 30px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 34px;
+}
+
+.search {
+  width: min(100%, 500px);
+  height: 56px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  font-size: 15px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+  transition: 0.25s ease;
+}
+
+.search::placeholder {
+  color: #94a3b8;
+}
+
+.search:focus {
+  background: white;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.2),
+    0 18px 45px rgba(15, 23, 42, 0.2);
 }
 
 .main-btn {
+  border: 0;
+  padding: 15px 30px;
+  border-radius: 14px;
   background: white;
   color: #2563eb;
-  border: none;
-
-  padding: 14px 32px;
-
-  border-radius: 30px;
-
   font-size: 16px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: 0.3s;
+  font-weight: 800;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.18);
+  transition: 0.25s ease;
 }
 
 .main-btn:hover {
   transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
 }
 
 .hero-image {
   display: flex;
+  align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .image-box {
-  width: 250px;
-  height: 250px;
-
-  border-radius: 40px;
-
-  background: rgba(255, 255, 255, 0.15);
-
+  width: 290px;
+  height: 290px;
+  border-radius: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 105px;
+  color: #2563eb;
 
-  font-size: 90px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(224, 231, 255, 0.92));
 
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  box-shadow:
+    0 35px 80px rgba(15, 23, 42, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  animation: floatBox 4s ease-in-out infinite;
 }
 
-/* TOOLS */
+@keyframes floatBox {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+/* =========================================================
+   HOME TOOL GRID
+========================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  min-height: 235px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 10px 35px rgba(15, 23, 42, 0.06),
+    0 2px 8px rgba(15, 23, 42, 0.03);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  opacity: 0;
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  border-color: #dbeafe;
+  box-shadow:
+    0 22px 50px rgba(37, 99, 235, 0.12),
+    0 5px 15px rgba(15, 23, 42, 0.06);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+  font-size: 21px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.card p {
+  min-height: 52px;
+  margin-bottom: 22px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.card button {
+  border: 0;
+  padding: 11px 20px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #2563eb, #6366f1);
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+
+  transition: 0.25s ease;
+}
+
+.card button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3);
+}
+
+.card button:disabled {
+  background: #e2e8f0;
+  color: #64748b;
+  box-shadow: none;
+}
+
+/* =========================================================
+   PDF / AI SECTIONS
+========================================================= */
+
+.section:nth-of-type(2) {
+  background: transparent;
+}
+
+.section:nth-of-type(3) {
+  background: transparent;
+}
+
+/* =========================================================
+   OLD TOOL CARD SUPPORT
+========================================================= */
 
 .tools-section {
-  padding: 70px 8%;
-
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 80px 0;
   text-align: center;
 }
 
 .tools-section h2,
 .features h2 {
   font-size: 34px;
-
-  margin-bottom: 40px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 42px;
 }
 
 .tool-grid {
   display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-
-  gap: 25px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
-
-.tool-card {
-  background: white;
-
-  padding: 30px;
-
-  border-radius: 25px;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-  transition: 0.3s;
-}
-
-.tool-card:hover {
-  transform: translateY(-8px);
-}
-
-.icon {
-  font-size: 50px;
-
-  margin-bottom: 15px;
-}
-
-.tool-card h3 {
-  font-size: 22px;
-
-  margin-bottom: 12px;
-}
-
-.tool-card p {
-  color: #6b7280;
-
-  margin-bottom: 20px;
-}
-
-.tool-card button {
-  background: #2563eb;
-
-  color: white;
-
-  border: none;
-
-  padding: 12px 25px;
-
-  border-radius: 25px;
-
-  cursor: pointer;
-}
-
-.tool-card button:hover {
-  background: #1d4ed8;
-}
-
-/* FEATURES */
-
-.features {
-  padding: 70px 8%;
-
-  background: white;
-
-  text-align: center;
-}
-
-.feature-grid {
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
-  gap: 30px;
-}
-
-.feature-grid div {
-  padding: 25px;
-
-  border-radius: 20px;
-
-  background: #f8fafc;
-
-  font-size: 18px;
-}
-
-.feature-grid h3 {
-  margin: 15px 0 8px;
-}
-
-/* BACK BUTTON */
-
-.back-btn {
-  margin: 20px;
-
-  padding: 12px 25px;
-
-  border: none;
-
-  border-radius: 25px;
-
-  background: #2563eb;
-
-  color: white;
-
-  cursor: pointer;
-
-  font-size: 15px;
-}
-
-.back-btn:hover {
-  background: #1d4ed8;
-}
-
-/* FOOTER */
-
-footer {
-  background: #111827;
-
-  color: white;
-
-  text-align: center;
-
-  padding: 40px 20px;
-}
-
-footer h3 {
-  font-size: 24px;
-
-  margin-bottom: 10px;
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-  .hero {
-    flex-direction: column;
-
-    text-align: center;
-
-    padding: 50px 20px;
-  }
-
-  .hero-text h1 {
-    font-size: 36px;
-  }
-
-  .image-box {
-    width: 180px;
-    height: 180px;
-
-    font-size: 60px;
-  }
-}
-
-/* =========================
-   TOOL PAGE DESIGN
-========================= */
-
-.tool-page {
-  min-height: 100vh;
-
-  background: #f5f7ff;
-
-  padding: 50px 20px;
-}
-
-.tool-header {
-  text-align: center;
-
-  margin-bottom: 35px;
-}
-
-.tool-header h1 {
-  font-size: 38px;
-
-  color: #1e293b;
-
-  margin-bottom: 10px;
-}
-
-.tool-header p {
-  color: #64748b;
-
-  font-size: 18px;
-}
-
-.tool-card {
-  max-width: 600px;
-
-  margin: auto;
-
-  background: white;
-
-  padding: 35px;
-
-  border-radius: 25px;
-
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-
-  text-align: center;
-}
-
-.tool-card input[type="file"] {
-  width: 100%;
-
-  padding: 15px;
-
-  border: 2px dashed #2563eb;
-
-  border-radius: 15px;
-
-  cursor: pointer;
-}
-
-.preview-image {
-  margin-top: 25px;
-
-  max-width: 100%;
-
-  max-height: 300px;
-
-  border-radius: 20px;
-
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.input-box {
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 15px;
-
-  margin-top: 25px;
-}
-
-.input-box label {
-  font-weight: 600;
-
-  color: #334155;
-}
-
-.input-box input {
-  padding: 12px;
-
-  border-radius: 12px;
-
-  border: 1px solid #cbd5e1;
-
-  font-size: 16px;
-}
-
-.action-btn {
-  margin-top: 30px;
-
-  width: 100%;
-
-  padding: 15px;
-
-  border: none;
-
-  border-radius: 30px;
-
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
-
-  color: white;
-
-  font-size: 17px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: 0.3s;
-}
-
-.action-btn:hover {
-  transform: translateY(-3px);
-}
-
-@media (max-width: 600px) {
-  .tool-header h1 {
-    font-size: 30px;
-  }
-
-  .tool-card {
-    padding: 25px;
-  }
-
-  .input-box {
-    grid-template-columns: 1fr;
-  }
-}
-
-.quality-box {
-  margin-top: 25px;
-
-  text-align: left;
-}
-
-.quality-box label {
-  font-weight: 600;
-
-  color: #334155;
-}
-
-.quality-box input {
-  width: 100%;
-
-  margin-top: 15px;
-}
-
-.file-list {
-  margin-top: 25px;
-
-  text-align: left;
-
-  background: #f8fafc;
-
-  padding: 20px;
-
-  border-radius: 15px;
-}
-
-.file-list h3 {
-  margin-bottom: 10px;
-}
-
-.file-list ul {
-  padding-left: 20px;
-}
-
-.file-list li {
-  margin: 5px 0;
-
-  color: #475569;
-}
-/* ==========================
-   PREMIUM TOOL CARD DESIGN
-========================== */
 
 .tool-card {
   position: relative;
-
   overflow: hidden;
+  padding: 30px;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+  transition: 0.25s ease;
 }
 
 .tool-card::before {
   content: "";
-
   position: absolute;
-
   top: 0;
-
   left: 0;
-
   width: 100%;
-
-  height: 5px;
-
+  height: 4px;
   background: linear-gradient(90deg, #2563eb, #7c3aed);
 }
 
+.tool-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 50px rgba(37, 99, 235, 0.11);
+}
+
 .tool-card .icon {
-  width: 80px;
-
-  height: 80px;
-
-  margin: 0 auto 20px;
-
-  border-radius: 25px;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  border-radius: 22px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
-  background: linear-gradient(135deg, #dbeafe, #ede9fe);
+  background: linear-gradient(135deg, #eff6ff, #f5f3ff);
 
-  font-size: 42px;
+  font-size: 40px;
+  transition: 0.3s ease;
+}
+
+.tool-card:hover .icon {
+  transform: translateY(-3px) rotate(4deg);
 }
 
 .tool-card h3 {
   color: #111827;
+  margin-bottom: 10px;
+}
 
-  margin-bottom: 12px;
+.tool-card p {
+  color: #64748b;
+  margin-bottom: 18px;
 }
 
 .tool-card button {
-  margin-top: 10px;
-
+  border: 0;
+  padding: 11px 21px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #2563eb, #7c3aed);
-
-  transition: 0.3s;
+  color: white;
+  font-weight: 700;
+  transition: 0.25s ease;
 }
 
-.tool-card button:hover {
-  transform: scale(1.05);
+.tool-card button:hover:not(:disabled) {
+  transform: translateY(-2px);
 }
 
-.tool-card:hover .icon {
-  transform: rotate(5deg);
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features {
+  padding: 90px 8%;
+  text-align: center;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-top: 1px solid #eef2f7;
 }
 
-.icon {
-  transition: 0.3s;
+.feature-grid {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
-.hero-image .image-box {
-  width: 280px;
-  height: 280px;
 
-  border-radius: 40px;
+.feature-grid div {
+  padding: 32px 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  background: white;
+  color: #475569;
+  font-size: 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
 
-  background: linear-gradient(135deg, #ffffff, #e0e7ff);
+.feature-grid h3 {
+  margin: 15px 0 7px;
+  font-size: 18px;
+  color: #111827;
+}
 
+.feature-grid p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer,
+footer {
+  position: relative;
+  background: #0b1220;
+  color: #cbd5e1;
+  text-align: center;
+  padding: 55px 20px 35px;
+}
+
+.footer h3,
+footer h3 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.footer p,
+footer p {
+  color: #94a3b8;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.footer-links button {
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 9px 14px;
+  background: #111827;
+  color: #cbd5e1;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.footer-links button:hover {
+  color: white;
+  border-color: #6366f1;
+  background: #1e293b;
+}
+
+/* =========================================================
+   TOOL PAGE
+========================================================= */
+
+.tool-page {
+  min-height: 100vh;
+  padding: 65px 20px 90px;
+
+  background:
+    radial-gradient(circle at 10% 5%, rgba(99, 102, 241, 0.08), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(37, 99, 235, 0.08), transparent 28%),
+    #f6f8fc;
+}
+
+.tool-header {
+  width: min(800px, 100%);
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.tool-header h1 {
+  margin-bottom: 10px;
+  color: #0f172a;
+  font-size: clamp(30px, 5vw, 43px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.tool-header p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+/* Main tool container */
+
+.tool-page > .tool-card {
+  width: min(760px, 100%);
+  margin: 0 auto;
+
+  padding: 35px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.08),
+    0 5px 15px rgba(15, 23, 42, 0.04);
+}
+
+/* File upload */
+
+.tool-card input[type="file"] {
+  width: 100%;
+  padding: 24px 18px;
+
+  border: 2px dashed #93c5fd;
+  border-radius: 18px;
+
+  background: #f8fbff;
+
+  color: #475569;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.tool-card input[type="file"]:hover {
+  border-color: #6366f1;
+  background: #f5f7ff;
+}
+
+/* Select */
+
+.tool-card select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 18px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 13px;
+
+  background: white;
+  color: #0f172a;
+
+  font-size: 15px;
+  outline: none;
+}
+
+.tool-card select:focus,
+.tool-card input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* Preview */
+
+.preview-section {
+  margin-top: 28px;
+}
+
+.preview-image {
+  display: block;
+  max-width: 100%;
+  max-height: 330px;
+
+  margin: 22px auto 0;
+
+  border-radius: 18px;
+
+  border: 1px solid #e2e8f0;
+
+  background:
+    linear-gradient(45deg, #f1f5f9 25%, transparent 25%),
+    linear-gradient(-45deg, #f1f5f9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f1f5f9 75%),
+    linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
+
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* =========================================================
+   IMAGE INFO
+========================================================= */
+
+.image-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.info-item {
+  padding: 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+  background: #f8fafc;
+  text-align: left;
+}
+
+.info-item span {
+  display: block;
+  margin-bottom: 4px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.info-item strong {
+  display: block;
+  color: #0f172a;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.input-box > div {
+  text-align: left;
+}
+
+.input-box label,
+.output-panel label,
+.resize-panel label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input-box input,
+.output-panel input,
+.resize-panel input {
+  width: 100%;
+  padding: 13px 14px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 13px;
+
+  background: white;
+  color: #0f172a;
+
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.input-box input:focus,
+.output-panel input:focus,
+.resize-panel input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* =========================================================
+   RESIZE / COMPRESS PANELS
+========================================================= */
+
+.resize-panel,
+.output-panel {
+  margin-top: 25px;
+  padding: 24px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+
+  background: #f8fafc;
+  text-align: left;
+}
+
+.resize-panel h3,
+.output-panel h3 {
+  margin-bottom: 20px;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+/* Unit buttons */
+
+.unit-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.unit-selector button {
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+  color: #475569;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.unit-selector button:hover {
+  border-color: #6366f1;
+}
+
+.unit-selector .active-unit {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, #2563eb, #6366f1);
+  box-shadow: 0 7px 18px rgba(37, 99, 235, 0.2);
+}
+
+/* Ratio */
+
+.ratio-box {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  cursor: pointer;
+}
+
+.ratio-box input {
+  width: auto !important;
+  margin: 0;
+  accent-color: #4f46e5;
+}
+
+/* =========================================================
+   ACTION BUTTON
+========================================================= */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 52px;
+
+  margin-top: 28px;
+
+  padding: 14px 20px;
+
+  border: 0;
+  border-radius: 15px;
+
+  background: linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #7c3aed 100%);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  box-shadow:
+    0 12px 28px rgba(79, 70, 229, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  transition: 0.25s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 17px 35px rgba(79, 70, 229, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.action-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   FILE LIST
+========================================================= */
+
+.file-list {
+  margin-top: 25px;
+  padding: 20px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 17px;
+
+  background: #f8fafc;
+
+  text-align: left;
+}
+
+.file-list h3 {
+  margin-bottom: 6px;
+  color: #0f172a;
+  font-size: 17px;
+}
+
+.file-list p {
+  margin-bottom: 12px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.file-list ul {
+  max-height: 180px;
+  overflow-y: auto;
+  padding-left: 20px;
+}
+
+.file-list li {
+  margin: 6px 0;
+  color: #475569;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   QUALITY
+========================================================= */
+
+.quality-box {
+  margin-top: 25px;
+  text-align: left;
+}
+
+.quality-box label {
+  display: block;
+  margin-bottom: 10px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.quality-box input {
+  width: 100%;
+}
+
+/* =========================================================
+   SEO CONTENT
+========================================================= */
+
+.seo-content {
+  width: min(900px, 100%);
+  margin: 55px auto 0;
+
+  padding: 38px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+
+  background: white;
+
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.04);
+}
+
+.seo-content h2 {
+  margin-bottom: 15px;
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.seo-content h3 {
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.seo-content p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.seo-content ol,
+.seo-content ul {
+  padding-left: 22px;
+  color: #64748b;
+}
+
+.seo-content li {
+  margin: 7px 0;
+  font-size: 14px;
+}
+
+.seo-content strong {
+  color: #334155;
+}
+
+/* =========================================================
+   BACK BUTTON
+   Kept only for old pages if needed.
+========================================================= */
+
+.back-btn {
+  margin: 20px;
+  padding: 10px 18px;
+
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+
+  background: white;
   color: #2563eb;
 
-  font-size: 100px;
+  font-size: 14px;
+  font-weight: 700;
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.06);
 
-  animation: floatBox 3s infinite ease-in-out;
+  transition: 0.2s ease;
 }
 
-@keyframes floatBox {
-  0%,
-  100% {
-    transform: translateY(0);
+.back-btn:hover {
+  transform: translateY(-2px);
+  border-color: #6366f1;
+}
+
+/* =========================================================
+   RESPONSIVE TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+  .hero {
+    padding: 75px 30px;
+    gap: 40px;
   }
 
-  50% {
-    transform: translateY(-10px);
+  .hero-text h1 {
+    font-size: 48px;
+  }
+
+  .image-box {
+    width: 230px;
+    height: 230px;
+    font-size: 80px;
+  }
+
+  .grid,
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: auto;
+    padding: 65px 20px 70px;
+    flex-direction: column;
+    text-align: center;
+    gap: 45px;
+  }
+
+  .hero-text {
+    width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 40px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .search {
+    width: 100%;
+    height: 52px;
+  }
+
+  .main-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .hero-image {
+    width: 100%;
+  }
+
+  .image-box {
+    width: 190px;
+    height: 190px;
+    border-radius: 40px;
+    font-size: 65px;
+  }
+
+  .section,
+  .tools-section {
+    width: min(100% - 28px, 600px);
+    padding: 60px 0;
+  }
+
+  .section h2,
+  .tools-section h2,
+  .features h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .grid,
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .card,
+  .tool-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .features {
+    padding: 65px 20px;
+  }
+
+  .tool-page {
+    padding: 45px 14px 70px;
+  }
+
+  .tool-header {
+    margin-bottom: 25px;
+  }
+
+  .tool-header h1 {
+    font-size: 30px;
+  }
+
+  .tool-header p {
+    font-size: 14px;
+  }
+
+  .tool-page > .tool-card {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .input-box {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .image-info {
+    grid-template-columns: 1fr;
+  }
+
+  .resize-panel,
+  .output-panel {
+    padding: 18px;
+    border-radius: 17px;
+  }
+
+  .seo-content {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .seo-content h2 {
+    font-size: 23px;
+  }
+
+  .seo-content h3 {
+    font-size: 17px;
+  }
+
+  .footer-links {
+    gap: 7px;
+  }
+
+  .footer-links button {
+    font-size: 12px;
+    padding: 8px 11px;
+  }
+
+  footer,
+  .footer {
+    padding: 45px 15px 30px;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 390px) {
+  .hero-text h1 {
+    font-size: 34px;
+  }
+
+  .section h2,
+  .tools-section h2,
+  .features h2 {
+    font-size: 25px;
+  }
+
+  .tool-page > .tool-card {
+    padding: 17px;
+  }
+
+  .card,
+  .tool-card {
+    padding
