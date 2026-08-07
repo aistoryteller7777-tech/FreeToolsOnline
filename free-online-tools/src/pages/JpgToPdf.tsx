@@ -47,14 +47,17 @@ const SortableImage = ({
 
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      className="sortable-image-card"
-      {...attributes}
-    >
+  ref={setNodeRef}
+  style={{
+    ...style,
+    touchAction: "none",
+  }}
+  className="sortable-image-card"
+  {...attributes}
+  {...listeners}
+>
       <div
         className="drag-handle"
-        {...listeners}
         title="Drag to reorder"
       >
         ☷
