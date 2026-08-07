@@ -108,6 +108,7 @@ const [outputFormat, setOutputFormat] = useState("jpeg");
 
     img.src = image;
   };
+};
 
   return (
     <div className="tool-page">
