@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
