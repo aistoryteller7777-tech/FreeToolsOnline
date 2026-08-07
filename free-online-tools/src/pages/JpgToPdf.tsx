@@ -10,9 +10,6 @@ const JpgToPdf: React.FC = () => {
 
   const [pdfName, setPdfName] = useState("converted-images");
 
-
-  const [quality, setQuality] = useState(0.9);
-
   const [loading, setLoading] = useState(false);
   const [downloadName, setDownloadName] = useState("my-images-pdf");
 const [pageSize, setPageSize] = useState("a4");
