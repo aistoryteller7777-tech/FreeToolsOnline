@@ -1160,5 +1160,6 @@ footer p {
   }
 
   .card,
-  .tool-card {
-    padding
+.tool-card {
+  padding: 30px;
+}
