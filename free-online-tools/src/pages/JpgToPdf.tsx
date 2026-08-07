@@ -28,9 +28,8 @@ const SortableImage = ({
   removeImage,
 }: {
   item: ImageItem;
-  removeImage: (id:string)=>void;
+  removeImage: (id: string) => void;
 }) => {
-
   const {
     attributes,
     listeners,
@@ -38,40 +37,43 @@ const SortableImage = ({
     transform,
     transition,
   } = useSortable({
-    id:item.id,
+    id: item.id,
   });
-
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-
   return (
     <div
       ref={setNodeRef}
       style={style}
+      className="sortable-image-card"
       {...attributes}
-      {...listeners}
-      className="pdf-image-card"
     >
+      <div
+        className="drag-handle"
+        {...listeners}
+        title="Drag to reorder"
+      >
+        ☷
+      </div>
 
       <img
         src={item.preview}
-        className="pdf-thumb"
+        alt="Selected"
+        className="sortable-image-thumb"
       />
 
       <button
+        type="button"
         className="remove-image-btn"
-        onClick={(e)=>{
-          e.stopPropagation();
-          removeImage(item.id);
-        }}
+        onClick={() => removeImage(item.id)}
+        title="Remove image"
       >
-        ❌
+        ×
       </button>
-
     </div>
   );
 };
